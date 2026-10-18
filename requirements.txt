@@ -7,4 +7,5 @@ certifi
 dnspython
 scikit-learn
 pyaml
+mlflow
 #-e .
