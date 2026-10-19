@@ -8,4 +8,5 @@ dnspython
 scikit-learn
 pyaml
 mlflow
+dagshub
 #-e .
