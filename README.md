@@ -69,6 +69,20 @@ Processes batches of new data to generate predictions using the trained model.
 - Loads the trained model and generates predictions.
 - Produces prediction results for downstream use.
 
+## 🧪 Experiment Tracking with MLflow & DagsHub
+
+This project integrates **MLflow and DagsHub** for experiment tracking, model evaluation, and experiment management.
+
+🔗 **[View MLflow Experiments on DagsHub](https://dagshub.com/Sarthya-Prakash/networksecurity/experiments)**
+
+The experiment tracking workflow supports:
+
+- 📊 Logging model evaluation metrics such as F1 score, precision, and recall.
+- 🔍 Comparing machine learning experiments and training runs.
+- ⚙️ Tracking model parameters and performance.
+- 📦 Organizing model artifacts.
+- 🔄 Improving reproducibility by maintaining experiment history.
+
 ## 🧰 Tech Stack
 
 | Category | Technologies |
