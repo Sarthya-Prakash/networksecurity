@@ -89,12 +89,25 @@ jobs:
         run: |
           docker run -d \
             --restart unless-stopped \
-            -p 8080:8080 \
+            -p 8080:8000 \
             --ipc=host \
             --name networksecurity \
             "$ECR_REGISTRY/$ECR_REPOSITORY:latest"
 
+      
       - name: Verify deployment
         run: |
           docker ps --filter "name=networksecurity"
           docker logs --tail 50 networksecurity
+
+          for i in {1..10}; do
+            if curl -fsS http://localhost:8080/docs >/dev/null; then
+              echo "Application is responding"
+              exit 0
+            fi
+            sleep 3
+          done
+
+          echo "Application health check failed"
+          exit 1
+

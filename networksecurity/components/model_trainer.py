@@ -23,13 +23,24 @@ from sklearn.ensemble import (
     GradientBoostingClassifier,
     RandomForestClassifier,
 )
+
 try:
     import mlflow
 except ModuleNotFoundError:
     mlflow = None
 
 import dagshub
-dagshub.init(repo_owner='Sarthya-Prakash', repo_name='networksecurity', mlflow=True)
+
+DAGSHUB_TOKEN = os.getenv("DAGSHUB_TOKEN")
+MLFLOW_ENABLED = bool(DAGSHUB_TOKEN and mlflow is not None)
+
+if MLFLOW_ENABLED:
+    dagshub.init(
+        repo_owner="Sarthya-Prakash",
+        repo_name="networksecurity",
+        mlflow=True
+    )
+
 
 
 class ModelTrainer:
@@ -41,7 +52,12 @@ class ModelTrainer:
             raise NetworkSecurityException(e,sys)
 
 
+    
     def track_mlflow(self, best_model, classification_metric):
+        if not MLFLOW_ENABLED:
+            logging.info("MLflow tracking disabled.")
+            return
+
         with mlflow.start_run():
             mlflow.log_metric("f1_score", classification_metric.f1_score)
             mlflow.log_metric("precision", classification_metric.precision_score)
@@ -51,6 +67,7 @@ class ModelTrainer:
                 name="model",
                 skops_trusted_types=["sklearn.tree._tree.Tree"]
             )
+
 
     def train_model(self,X_train,y_train,x_test,y_test):
         models = {
